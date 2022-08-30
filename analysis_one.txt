@@ -1,0 +1,258 @@
+SQL> --Analysis 1:
+SQL> --In analysis one, I have computed the number of movies acted by actor(Bradley Cooper, Dhanush) and actress(Emma Thompson, Alia Bhatt) in each year
+SQL> --over thier entire career.In this the actor and actress names given for me is Bradley Cooper and Emma Thompson. And, I chosen Dhansuh, Alia Bhatt as
+SQL> --my favourite actor and actress.
+SQL> SELECT nb.primaryname||';'||tb.startyear||';'||COUNT(*)
+  2  FROM sharmac.name_basics nb
+  3  JOIN sharmac.title_principals tp ON (nb.nconst = tp.nconst)
+  4  JOIN sharmac.title_basics	   tb ON (tp.tconst = tb.tconst)
+  5  WHERE (nb.primaryname = 'Bradley Cooper' OR nb.primaryname ='Emma Thompson')
+  6  AND (nb.nconst='nm0177896' or nb.nconst='nm0000668')
+  7  AND (tp.category LIKE '%actor%' or tp.category LIKE '%actress%')
+  8  AND tb.titletype LIKE '%movie%'
+  9  AND tb.startyear!='\N'
+ 10  GROUP BY nb.primaryname,tb.startyear
+ 11  ORDER BY nb.primaryname ,COUNT(*) DESC,tb.startyear DESC;
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Bradley Cooper;2012;4                                                           
+Bradley Cooper;2008;4                                                           
+Bradley Cooper;2015;3                                                           
+Bradley Cooper;2014;3                                                           
+Bradley Cooper;2009;3                                                           
+Bradley Cooper;2013;2                                                           
+Bradley Cooper;2011;2                                                           
+Bradley Cooper;2018;1                                                           
+Bradley Cooper;2010;1                                                           
+Bradley Cooper;2002;1                                                           
+Emma Thompson;2013;3                                                            
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Emma Thompson;2017;2                                                            
+Emma Thompson;2016;2                                                            
+Emma Thompson;2015;2                                                            
+Emma Thompson;1998;2                                                            
+Emma Thompson;1995;2                                                            
+Emma Thompson;1993;2                                                            
+Emma Thompson;1992;2                                                            
+Emma Thompson;2014;1                                                            
+Emma Thompson;2012;1                                                            
+Emma Thompson;2010;1                                                            
+Emma Thompson;2008;1                                                            
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Emma Thompson;2006;1                                                            
+Emma Thompson;2005;1                                                            
+Emma Thompson;2003;1                                                            
+Emma Thompson;2002;1                                                            
+Emma Thompson;1997;1                                                            
+Emma Thompson;1994;1                                                            
+Emma Thompson;1991;1                                                            
+Emma Thompson;1989;1                                                            
+
+30 rows selected.
+
+Elapsed: 00:00:02.51
+SQL> set timing off;
+SQL> 
+SQL> --Choice of intrest:(I chose Alia Bhatt and Dhanush)
+SQL> --In the below query I have chosen actor Dhanush and actress Alia Bhatt and the movies acted by them in each year over their entire career
+SQL> set timing on;
+SQL> SELECT nb.primaryname||';'||tb.startyear||';'||COUNT(*)
+  2  FROM sharmac.name_basics nb
+  3  JOIN sharmac.title_principals tp ON (nb.nconst = tp.nconst)
+  4  JOIN sharmac.title_basics	   tb ON (tp.tconst = tb.tconst)
+  5  WHERE (nb.primaryname = 'Dhanush' OR nb.primaryname ='Alia Bhatt')
+  6  AND (nb.nconst='nm1017633' OR nb.nconst='nm1333687')
+  7  AND (tp.category LIKE '%actor%' or tp.category LIKE '%actress%')
+  8  AND tb.titletype LIKE '%movie%'
+  9  AND tb.startyear!='\N'
+ 10  GROUP BY nb.primaryname,tb.startyear
+ 11  ORDER BY nb.primaryname ,COUNT(*) DESC,tb.startyear DESC;
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Alia Bhatt;2018;3                                                               
+Alia Bhatt;2016;3                                                               
+Alia Bhatt;2014;3                                                               
+Alia Bhatt;2019;2                                                               
+Alia Bhatt;2017;1                                                               
+Alia Bhatt;2015;1                                                               
+Alia Bhatt;2012;1                                                               
+Dhanush;2011;5                                                                  
+Dhanush;2015;4                                                                  
+Dhanush;2013;3                                                                  
+Dhanush;2004;3                                                                  
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Dhanush;2018;2                                                                  
+Dhanush;2017;2                                                                  
+Dhanush;2016;2                                                                  
+Dhanush;2010;2                                                                  
+Dhanush;2007;2                                                                  
+Dhanush;2006;2                                                                  
+Dhanush;2002;2                                                                  
+Dhanush;2014;1                                                                  
+Dhanush;2012;1                                                                  
+Dhanush;2009;1                                                                  
+Dhanush;2008;1                                                                  
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Dhanush;2005;1                                                                  
+Dhanush;2003;1                                                                  
+
+24 rows selected.
+
+Elapsed: 00:00:02.40
+SQL> set timing off;
+SQL> 
+SQL> --Verification:
+SQL> --the number of movies acted by actor(Tom Hanks) and actress(Aishwarya Rai Bachchan) in each year over thier entire career.
+SQL> set timing on;
+SQL> SELECT nb.primaryname||';'||tb.startyear||';'||COUNT(*)
+  2  FROM sharmac.name_basics nb
+  3  JOIN sharmac.title_principals tp ON (nb.nconst = tp.nconst)
+  4  JOIN sharmac.title_basics	   tb ON (tp.tconst = tb.tconst)
+  5  WHERE (nb.primaryname = 'Tom Hanks' OR nb.primaryname ='Aishwarya Rai Bachchan')
+  6  AND (tp.category LIKE '%actor%' OR tp.category LIKE '%actress%')
+  7  AND tb.titletype LIKE '%movie%'
+  8  AND tb.startyear!='\N'
+  9  GROUP BY nb.primaryname,tb.startyear
+ 10  ORDER BY nb.primaryname DESC,count(*) DESC,tb.startyear DESC;
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Tom Hanks;2016;4                                                                
+Tom Hanks;2004;3                                                                
+Tom Hanks;1986;3                                                                
+Tom Hanks;2017;2                                                                
+Tom Hanks;2013;2                                                                
+Tom Hanks;2011;2                                                                
+Tom Hanks;2002;2                                                                
+Tom Hanks;1999;2                                                                
+Tom Hanks;1998;2                                                                
+Tom Hanks;1995;2                                                                
+Tom Hanks;1993;2                                                                
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Tom Hanks;1990;2                                                                
+Tom Hanks;1989;2                                                                
+Tom Hanks;1988;2                                                                
+Tom Hanks;1985;2                                                                
+Tom Hanks;1984;2                                                                
+Tom Hanks;2019;1                                                                
+Tom Hanks;2015;1                                                                
+Tom Hanks;2012;1                                                                
+Tom Hanks;2010;1                                                                
+Tom Hanks;2009;1                                                                
+Tom Hanks;2008;1                                                                
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Tom Hanks;2007;1                                                                
+Tom Hanks;2006;1                                                                
+Tom Hanks;2000;1                                                                
+Tom Hanks;1996;1                                                                
+Tom Hanks;1994;1                                                                
+Tom Hanks;1992;1                                                                
+Tom Hanks;1987;1                                                                
+Aishwarya Rai Bachchan;2010;5                                                   
+Aishwarya Rai Bachchan;2004;4                                                   
+Aishwarya Rai Bachchan;2003;4                                                   
+Aishwarya Rai Bachchan;2000;4                                                   
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Aishwarya Rai Bachchan;1999;4                                                   
+Aishwarya Rai Bachchan;2006;3                                                   
+Aishwarya Rai Bachchan;2016;2                                                   
+Aishwarya Rai Bachchan;2008;2                                                   
+Aishwarya Rai Bachchan;2007;2                                                   
+Aishwarya Rai Bachchan;2005;2                                                   
+Aishwarya Rai Bachchan;1997;2                                                   
+Aishwarya Rai Bachchan;2018;1                                                   
+Aishwarya Rai Bachchan;2015;1                                                   
+Aishwarya Rai Bachchan;2002;1                                                   
+Aishwarya Rai Bachchan;2001;1                                                   
+
+NB.PRIMARYNAME||';'||TB.STARTYEAR||';'||COUNT(*)                                
+--------------------------------------------------------------------------------
+Aishwarya Rai Bachchan;1998;1                                                   
+
+45 rows selected.
+
+Elapsed: 00:00:06.75
+SQL> set timing off;
+SQL> 
+SQL>  --Analysis 1 correctness
+SQL>  --In the below query for actor Dhanush,I have calculated all movies acted over his entire career ordered by year
+SQL> set timing on;
+SQL> SELECT nb.primaryname||';'||tb.primarytitle||';'||tb.startyear||';'||COUNT(*)
+  2  FROM sharmac.name_basics nb
+  3  JOIN sharmac.title_principals tp ON (nb.nconst = tp.nconst)
+  4  JOIN sharmac.title_basics	   tb ON (tp.tconst = tb.tconst)
+  5  WHERE (nb.primaryname = 'Dhanush')
+  6  AND (tp.category LIKE 'actor%')
+  7  AND tb.titletype LIKE '%movie%'
+  8  AND tb.startyear!='\N'
+  9  GROUP BY nb.primaryname,tb.startyear,tb.primarytitle
+ 10  ORDER BY nb.primaryname DESC,tb.startyear;
+
+NB.PRIMARYNAME||';'||TB.PRIMARYTITLE||';'||TB.STARTYEAR||';'||COUNT(*)          
+--------------------------------------------------------------------------------
+Dhanush;Dreams;2002;1                                                           
+Dhanush;Thulluvadho Ilamai;2002;1                                               
+Dhanush;Kaadhal Konden;2003;1                                                   
+Dhanush;Devathayai Kanden;2004;1                                                
+Dhanush;Puthukkottaielerenthu Saravanan;2004;1                                  
+Dhanush;Sullan;2004;1                                                           
+Dhanush;Athu Oru Kanaa Kaalam;2005;1                                            
+Dhanush;Pudhu Pettai;2006;1                                                     
+Dhanush;Thiruvilaiyaadal Aarambam;2006;1                                        
+Dhanush;Parattai Engira Azhagu Sundaram;2007;1                                  
+Dhanush;Ruthless Man;2007;1                                                     
+
+NB.PRIMARYNAME||';'||TB.PRIMARYTITLE||';'||TB.STARTYEAR||';'||COUNT(*)          
+--------------------------------------------------------------------------------
+Dhanush;Yaaradi Nee Mohini;2008;1                                               
+Dhanush;Padikkathavan;2009;1                                                    
+Dhanush;Kutty;2010;1                                                            
+Dhanush;Uthama Puthiran;2010;1                                                  
+Dhanush;Aadukalam;2011;1                                                        
+Dhanush;Mappillai;2011;1                                                        
+Dhanush;Mayakkam Enna;2011;1                                                    
+Dhanush;Seedan;2011;1                                                           
+Dhanush;Venghai;2011;1                                                          
+Dhanush;3;2012;1                                                                
+Dhanush;Maryan;2013;1                                                           
+
+NB.PRIMARYNAME||';'||TB.PRIMARYTITLE||';'||TB.STARTYEAR||';'||COUNT(*)          
+--------------------------------------------------------------------------------
+Dhanush;Naiyaandi;2013;1                                                        
+Dhanush;Raanjhanaa;2013;1                                                       
+Dhanush;Velaiilla Pattadhari;2014;1                                             
+Dhanush;Anegan;2015;1                                                           
+Dhanush;Maari;2015;1                                                            
+Dhanush;Shamitabh;2015;1                                                        
+Dhanush;Thanga Magan;2015;1                                                     
+Dhanush;Kodi;2016;1                                                             
+Dhanush;Thodari;2016;1                                                          
+Dhanush;Nimmo;2017;1                                                            
+Dhanush;Power Paandi;2017;1                                                     
+
+NB.PRIMARYNAME||';'||TB.PRIMARYTITLE||';'||TB.STARTYEAR||';'||COUNT(*)          
+--------------------------------------------------------------------------------
+Dhanush;Enai Noki Paayum Thota;2018;1                                           
+Dhanush;Vada Chennai;2018;1                                                     
+
+35 rows selected.
+
+Elapsed: 00:00:02.83
+SQL> 
+SQL> set echo off;
